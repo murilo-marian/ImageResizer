@@ -21,31 +21,13 @@ def readImage(filepath):
 def resize(pixels, width, height, multy, multx):
     newHeight = int(height * multy)
     newWidth = int(width * multx)
-    
-    smallY = False
-    smallX = False
-    
-    if multy < 1:
-        multy = int(1 / multy)
-        smallY = True
-    if multx < 1:
-        multx = int(1 / multx)
-        smallX = True
         
     resizedPixels = []
     for y in range(newHeight):
         newRow = []
         for x in range(newWidth):
-            pixelX = 0
-            pixelY = 0
-            if smallX:
-                pixelX = int(x * multx)
-            else:
-                pixelX = int(x // multx)
-            if smallY:
-                pixelY = int(y * multy)
-            else:
-                pixelY = int(y // multy)
+            pixelX = int(x // multx)
+            pixelY = int(y // multy)
                 
             chosenPixel = pixels[pixelY][pixelX]
             newRow.append(chosenPixel)
@@ -67,7 +49,7 @@ originalIMG = "Entrada_EscalaCinza.pgm"
 
 pixels, width, height = readImage(originalIMG)
 
-resizedPixels, newWidth, newHeight = resize(pixels, width, height, 5.4, 9.525)
+resizedPixels, newWidth, newHeight = resize(pixels, width, height, 0.9, 1.6)
 
-output = "newIMG8k.pgm"
+output = "newIMG720p.pgm"
 saveIMG(output, resizedPixels, newWidth, newHeight)
