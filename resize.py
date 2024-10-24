@@ -1,3 +1,5 @@
+import timeit
+
 def readImage(filepath):
     with open(filepath, "r") as image:
         imageType = image.readline().strip()
@@ -18,7 +20,7 @@ def readImage(filepath):
         
     return pixels, width, height
 
-def resize(pixels, width, height, multy, multx):
+def resize(pixels, width, height, multx, multy):
     newHeight = int(height * multy)
     newWidth = int(width * multx)
         
@@ -45,11 +47,18 @@ def saveIMG(filename, pixels, width, height):
         for row in pixels:
             newImage.write(" ".join(map(str, row)) + "\n")
             
+
+def getMult(width, height, newWidth, newHeight):
+    widthMult = newWidth / width
+    heightMult = newHeight / height
+    return widthMult, heightMult
+            
 originalIMG = "Entrada_EscalaCinza.pgm"
 
 pixels, width, height = readImage(originalIMG)
 
-resizedPixels, newWidth, newHeight = resize(pixels, width, height, 0.9, 1.6)
-
+multy, multx = getMult(width, height, 7680, 4320)
+print(str(multy) + " " + str(multx))
+resizedPixels, newWidth, newHeight = resize(pixels, width, height, multy, multx)
 output = "newIMG720p.pgm"
 saveIMG(output, resizedPixels, newWidth, newHeight)
